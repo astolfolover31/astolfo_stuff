@@ -2,15 +2,45 @@ local players = game:GetService("Players")
 local tweenService = game:GetService("TweenService")
 local runService = game:GetService("RunService")
 local coreGui = game:GetService("CoreGui")
-
+local userInputService = game:GetService("UserInputService")
 
 local Library = {}
 Library.Tree = {}
 
 function Library:CreateAstolfoUI()
-	Library.Tree["1"] = Instance.new("ScreenGui", players.LocalPlayer:WaitForChild("PlayerGui"));
-	Library.Tree["1"]["Name"] = [[astolfo]];
-	Library.Tree["1"]["ZIndexBehavior"] = Enum.ZIndexBehavior.Sibling;
+	Library.Tree["1"] = Instance.new("ScreenGui", players.LocalPlayer:WaitForChild("PlayerGui"))
+	Library.Tree["1"]["Name"] = [[astolfo]]
+	Library.Tree["1"]["ZIndexBehavior"] = Enum.ZIndexBehavior.Sibling
+
+	local closeButton = Instance.new("TextButton", Library.Tree["1"])
+	closeButton.BorderSizePixel = 0
+	closeButton.TextSize = 14
+	closeButton.BackgroundColor3 = Color3.fromRGB(41, 41, 41)
+	closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+	closeButton.Size = UDim2.new(0.1, 0, 0.05, 0)
+	closeButton.Position = UDim2.new(0.9, 0, 0, 0)
+	closeButton.Text = "Close"
+	closeButton.Font = Enum.Font.Ubuntu
+
+	local isOpen = true
+
+	local function toggleGuiElements()
+		isOpen = not isOpen
+		for _, child in pairs(Library.Tree["1"]:GetChildren()) do
+			if child ~= closeButton then
+				if child:IsA("GuiObject") then
+					child.Visible = isOpen
+				end
+			end
+		end
+		if isOpen then
+			closeButton.Text = "Close"
+		else
+			closeButton.Text = "Open"
+		end
+	end
+
+	closeButton.MouseButton1Click:Connect(toggleGuiElements)
 end
 
 function Library:NewTab(name, position)
@@ -49,6 +79,7 @@ function Library:NewTab(name, position)
 	buttonshere.BackgroundColor3 = Color3.fromRGB(41, 41, 41)
 	buttonshere.Size = UDim2.new(0, 147, 0, 318)
 	buttonshere.ScrollBarImageColor3 = Color3.fromRGB(0, 0, 0)
+	buttonshere.ScrollBarThickness = 1
 	buttonshere.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	buttonshere.Position = UDim2.new(0.043, 0, 0.112, 0)
 	buttonshere.Name = [[buttonshere]]
@@ -83,7 +114,6 @@ function Library:NewTab(name, position)
 	Library.Tree[name] = tab
 end
 
-
 function Library:AddButton(tabName, name, clicked)
 	local tab = Library.Tree[tabName]
 	if not tab then
@@ -95,7 +125,7 @@ function Library:AddButton(tabName, name, clicked)
 	button.TextSize = 14
 	button.BackgroundColor3 = Color3.fromRGB(51, 51, 51)
 	button.TextColor3 = Color3.fromRGB(255, 255, 255)
-	button.Size = UDim2.new(0, 131, 0, 50)
+	button.Size = UDim2.new(0, 147, 0, 28)
 	button.Name = name
 	button.Text = name
 	button.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -117,7 +147,7 @@ function Library:AddToggleButton(tabName, name, initialState, callback)
 	button.TextSize = 14
 	button.BackgroundColor3 = Color3.fromRGB(51, 51, 51)
 	button.TextColor3 = Color3.fromRGB(255, 255, 255)
-	button.Size = UDim2.new(0, 131, 0, 50)
+	button.Size = UDim2.new(0, 147, 0, 28)
 	button.Name = name
 	button.Text = name
 	button.BorderColor3 = Color3.fromRGB(0, 0, 0)
