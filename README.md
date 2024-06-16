@@ -1,4 +1,4 @@
-# just some stuff
+# Astolfo
 
 
 <p align="center">
@@ -24,4 +24,4 @@
 (i stole the buttons from meteor client repo lmao)
 
 (its for roblox not minecraft)
-#astolfo client still in development
+# astolfo client still in development
